@@ -118,10 +118,10 @@ local function UpdateCharacter(Character)
 	local Uniform = Character:WaitForChild("Uniform")
 
 	local LeftTransparency = Customization.LeftGlove and 1 or 0
-	local ChangeLeftGlove = Uniform.LeftGlove.Transparency ~= LeftTransparency
+	local ChangeLeftGlove = Uniform:WaitForChild("LeftGlove", 15).Transparency ~= LeftTransparency
 
 	local RightTransparency = Customization.RightGlove and 1 or 0
-	local ChangeRightGlove = Uniform.RightGlove.Transparency ~= RightTransparency
+	local ChangeRightGlove = Uniform:WaitForChild("RightGlove", 15).Transparency ~= RightTransparency
 
 	ApplyCustomization(Customization.Name, Customization.Number, ChangeLeftGlove, ChangeRightGlove)
 
@@ -248,6 +248,7 @@ for _, Option in Options:GetChildren() do
 	end)
 end
 
+UniformGui.ResetOnSpawn = false
 UniformGui.Parent = Player.PlayerGui
 
 UpdateCharacter(Player.Character)
