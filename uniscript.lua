@@ -1,5 +1,6 @@
 local Player = game:GetService("Players").LocalPlayer
 local RemoteEvent = game:GetService("ReplicatedStorage").Remotes.CharacterSoundEvent
+local UserInputService = game:GetService("UserInputService")
 
 local Customization = {
 	LeftSleeve = false,
@@ -166,17 +167,36 @@ table.insert(Changers, LeftChanger)
 table.insert(Changers, RightChanger)
 table.insert(Changers, TowelChanger)
 
-UniformGui.Button.Activated:Connect(function()
-	Visible = not Visible
+if getgenv().HideGui then
+	UniformGui.Button.Visible = false
 
-	for _, Option in Options:GetChildren() do
-		Option.Visible = Visible
-	end
+	UserInputService.InputBegan:Connect(function(Input, GP)
+		if GP then return end
+		if Input.KeyCode ~= Enum.KeyCode.LeftControl then return end
 
-	for _, Changer in Changers do
-		Changer.Visible = false
-	end
-end)
+		Visible = not Visible
+
+		for _, Option in Options:GetChildren() do
+			Option.Visible = Visible
+		end
+
+		for _, Changer in Changers do
+			Changer.Visible = false
+		end
+	end)
+else
+	UniformGui.Button.Activated:Connect(function()
+		Visible = not Visible
+
+		for _, Option in Options:GetChildren() do
+			Option.Visible = Visible
+		end
+
+		for _, Changer in Changers do
+			Changer.Visible = false
+		end
+	end)
+end
 
 for _, Option in Options:GetChildren() do
 	task.spawn(function()
